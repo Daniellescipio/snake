@@ -1,0 +1,58 @@
+body{
+    text-align: center;
+}
+#boardContainer{
+    display: flex;
+    justify-content: center;
+}
+#gameBoard{
+    display: grid;
+    grid-template-columns: repeat(30, 1rem);
+    grid-gap: 3px;
+    border: 1px solid rgb(219, 219, 219);
+}
+.boardSquare{
+    width: 1rem;
+    height: 1rem;
+}
+#dialogeBox{
+    background-color: rgb(219, 219, 219);;
+    width: 8rem;
+    height: 5.5rem;
+    padding-top: 1rem;
+    position: absolute;
+    top: 15rem;
+    margin: 0 14rem;
+    border: 1px dashed black;
+    display: none;
+}
+.snake{
+    background-color: black;
+}
+.food{
+    background-color: red;
+}
+.button{
+    width: 5rem;
+    height: 5rem;
+    margin: 1rem;
+}
+.buttonRow{
+    display: flex;
+    flex-direction: column;
+}
+.levelButton{
+    height: 2rem;
+}
+.easyButton{
+    background-color: green;
+}
+.hardButton{
+    background-color: red;
+}
+.easy:hover{
+    background-color: green;
+}
+.hard:hover{
+    background-color: red;
+}
