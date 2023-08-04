@@ -2,32 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slither</title>
-    <link rel = "stylesheet" href ="style.css"/>
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-    <body>
-        <h1>Snake Practice</h1>
-        <div id="boardContainer">
-            <div id="gameBoard">
-                <div id = "dialogeBox">
-                    <p id = dialoge></p>
-                    <button class = "rematch">Play Again</p>
-                </div>
-            </div>
-            <div class = buttonRow>
-                <button class="button stopButton">Stop</button>
-            </div>
-            <div class = "scoreBox">
-                <h2>High Score</h2>
-                <p class = "highScore">0</p>
-                <h2>Score</h2>
-                <p class = "score">0</p>
-            </div>
-            <script type="text/javascript" src="main.js"></script>
-        </div>
-    </body>
+<body>
+    <h1>Snake</h1>
+    <p><span id="hardness">Easy</span><br>High Score:<span id = "highScore"></span></p>
+    <p id = "score">Score:<span></span></p>
+    <p>Choose a level</p>
+    <button id = "easy" class = "selected">Easy</button>
+    <button id = "medium">Medium</button>
+    <button id = "hard">Hard</button>
+    <div id = "timerBox">
+        <p>How many point can you get in <br><span id="timer">90 </span><br>seconds</p>
+    </div>
+
+    <div id="gameboard" class="easy">   
+            <p id = "dialogeBox"><span>Press any key to play</span></p>
+    </div>
+    
+    <script src="main.js"></script>
+</body>
 </html>
 
 
