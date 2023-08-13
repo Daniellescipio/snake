@@ -11,11 +11,13 @@ const highScoreText = document.getElementById("highScore")
 const easyButton = document.getElementById("easy")
 const medButton = document.getElementById("medium")
 const hardButton = document.getElementById("hard")
-//timer for easy level
-const timer = document.getElementById("timer")
-const timerBox = document.getElementById("timerBox")
+// //timer for easy level
+// const timer = document.getElementById("timer")
+// const timerBox = document.getElementById("timerBox")
 //placeholder to categorize score
 const hardness = document.getElementById("hardness")
+//stop button is developer only you will need to comment in the element in the HTML for it to work
+const stopButton = document.getElementById("stop")
 
 //I have the css grid, but assigning grid squares with ids make keeping track of the snake easier and more intuitive.
 let gameSquares=[]
@@ -24,11 +26,11 @@ const snake=[]
 //keeps track of the direction the snake is moving
 let previousDirection = false
 //timer for easy level
-let time =  timer.textContent
+// let time =  timer.textContent
 //stops a snakes movement,  for chaning direction/stopping game
 let stopMovement
 //stops the clock on easy difficulty
-let stopTimer
+// let stopTimer
 //keeps trak of food on the board, assigned with a function, see generate food
 let food = false
 //speed of the snake is determined by the level, it increases as the snake "eats" food
@@ -111,6 +113,10 @@ const startGame = ()=>{
     //reset score
     scoreText.children[0].textContent = 0  
 }
+//stop button for development only
+stopButton.addEventListener("click", ()=>{
+    clearInterval(stopMovement)
+})
 
 //ends the game
 const gameOver = ()=>{
@@ -194,12 +200,24 @@ const keyBoardEvents = async (e)=>{
     //the slither function to move the snake will be called with the direction of the arrow key pressed
     let direction
     if(e.key === "ArrowUp"){
+        if(previousDirection === "down"){
+            return
+        }
         direction = "up"
     }else if(e.key === "ArrowDown"){
+        if(previousDirection === "up"){
+            return
+        }
         direction = "down"
     }else if(e.key === "ArrowLeft"){
+        if(previousDirection === "right"){
+            return
+        }
         direction = "left"
     }else if(e.key === "ArrowRight"){
+        if(previousDirection === "left"){
+            return
+        }
         direction = "right"
     }else{
         //if anything other than an arrow key is pressed we say aht aht aht
@@ -210,25 +228,24 @@ const keyBoardEvents = async (e)=>{
     //if the snake is moving, we clear the interval and call the move funtion to prevent any delays with setInterval, this is for turning
     if(previousDirection && previousDirection !== direction){
         clearInterval(stopMovement)
-        slither(direction)
         //the only case there should be no previous direction is the start of the game, so all this is stuff that should happen when the game starts
     }else if(!previousDirection){
         //places food on the board
         food = food ? food : generateFood()
         //starts timer on easy mode
-        if(difficulty === 1){
-            timerBox.style.display="block"
-            stopTimer = setInterval(()=>{
-                if(time>0){
-                    time--
-                }else{
-                    time = 60
-                    gameOver()
-                    clearInterval(stopTimer)
-                }
-                timer.textContent = time
-            }, 1000)
-        }
+        // if(difficulty === 1){
+        //     timerBox.style.display="block"
+        //     stopTimer = setInterval(()=>{
+        //         if(time>0){
+        //             time--
+        //         }else{
+        //             time = 60
+        //             gameOver()
+        //             clearInterval(stopTimer)
+        //         }
+        //         timer.textContent = time
+        //     }, 1000)
+        // }
         //disables buttons
         easyButton.disabled = true
         medButton.disabled = true
@@ -237,16 +254,20 @@ const keyBoardEvents = async (e)=>{
         //if a person double presses an arrow key nothing should happen
         return
     }
+    
     //set clear interval variable and call set interval with our move function. 
+    slither(direction)
     stopMovement =  setInterval(slither, (1000/level), direction)   
 }
 
 //this is the meat of the game, the function that makes our snake move.
 const slither = async (direction) => {
+    const snakePositionArray = snake.map((peice)=>Number(peice.getAttribute("place")))
     //the new position each snake link moves into
     let newPos
     //the position each snake link was in previously
     let prevPos
+    //I think this is the easiest way to make sure my snake isn't eating itself!
     //for loop that goes through each snake link, saves where it was for the next peice, and moves it into the position of the previous piece.
         for(let i = 0; i <snake.length;i++){
             //we get the position of each snake link on the board (snake peices are appended to game squares and game squares have an id with their place in the grid)
@@ -301,7 +322,7 @@ const slither = async (direction) => {
                     }
                 }
                 //if the run into a piece of food...
-                if(newPos === Number(food.getAttribute("place")) ){
+                if(newPos === Number(food.getAttribute("place"))){
                     //the food gets 'eaten'
                     food.remove()
                     //new food is placed on the board
@@ -314,16 +335,23 @@ const slither = async (direction) => {
                     level++
                     //set the score
                     scoreText.children[0].textContent = score
+                }else if(snakePositionArray.indexOf(newPos)>=0){
+                 gameOver()
+                 clearInterval(stopMovement)
+                 return
                 }
             }else{
             //for all links that are not the head we just need to record where they were.
                 newPos = prevPos
             }
+                snake[i].setAttribute("place", newPos)
             //appended the snake peice to its new spots
             gameSquares[newPos].append(snake[i])
             //record previous location
             prevPos = boardSquarePosition
         }
+
+
         //if they turned we record the new direction
         if(direction !== previousDirection){
             previousDirection = direction
