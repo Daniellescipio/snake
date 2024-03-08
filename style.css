@@ -62,3 +62,51 @@ body{
 #timer{
     font-size: 50px;
 }
+
+@media screen and (max-width: 992px) {
+    body{
+        touch-action: manipulation;
+    }
+   #gameboard{
+    width: 95%;
+    height: 500px;
+   }
+   #dialogeBox{
+    width: 200px;
+    margin: 5.5em;
+    padding: 2rem 0;
+   }
+   .extras{
+    display: none;
+   }
+   .snake{
+    width: 100%;
+    height: 1.15em;
+   }
+   #mobileControls{
+    width: fit-content;
+    margin: auto;
+   }
+   .arrow{
+    position: relative;
+    background: grey;
+    width: fit-content;
+   }
+   .arrow>span{
+    font-size: 3em;
+   }
+   #up{
+
+   }
+   #down{
+
+   }
+   #left{
+    bottom: 6.5em;
+    right: 5em;
+   }
+   #right{
+    bottom: 0em;
+    left: 5em;
+   }
+}

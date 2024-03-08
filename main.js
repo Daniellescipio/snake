@@ -1,9 +1,12 @@
 //variables
 //bring in stuff from html
 //gameboard
+const body = document.getElementsByTagName("body")
+const screenType = screen.orientation.type === "landscape-primary" && screen.orientation.angle < 1 ? "desktop" : "mobile"
 const gameBoard = document.getElementById("gameboard")
 //dialoge box, displays instructions for playing, starting a newgame, and score info
 const dialogeBox = document.getElementById("dialogeBox")
+dialogeBox.textContent = screenType === "mobile" ? "Tap outside this box to start!" : "Click or press a button to start!"
 //placeholder for scores
 const scoreText = document.getElementById("score")
 const highScoreText = document.getElementById("highScore")
@@ -11,6 +14,16 @@ const highScoreText = document.getElementById("highScore")
 const easyButton = document.getElementById("easy")
 const medButton = document.getElementById("medium")
 const hardButton = document.getElementById("hard")
+
+
+//simulate keyboard events on click for phone play
+const upArrow = document.getElementById("up")
+const downArrow = document.getElementById("down")
+const leftArrow = document.getElementById("left")
+const rightArrow = document.getElementById("right")
+const mobileControls = [upArrow, rightArrow, downArrow, leftArrow]
+
+
 // //timer for easy level
 // const timer = document.getElementById("timer")
 // const timerBox = document.getElementById("timerBox")
@@ -57,6 +70,7 @@ for(let i=0; i<625; i++){
     gameSquares.push(newSquare)
 }
 
+
 //events and functions
 //You can't die, how many points can you get in 60 seconds
 const easyGame = ()=>{
@@ -102,14 +116,26 @@ const hardGame = ()=>{
 }
 hardButton.addEventListener("click", hardGame)
 
+
 //adds keyboard event, appropriate dialoge, and resets score if necessary
+
 const startGame = ()=>{
-    dialogeBox.innerHTML = `Press the arrow keys to start`
+    console.log("?")
+    dialogeBox.innerHTML = screenType === "desktop" ? `Press the arrow keys to start` : `Press the arrows below to start`
     newGame=true
     //any key can activate a game (start game function) ...
     document.removeEventListener("keydown", startGame)
     //but only arrow keys can be used to play (keyboard functions)
-    document.addEventListener("keydown", keyBoardEvents)
+    if(screenType === "mobile"){
+        mobileControls.forEach(control=>control.removeEventListener("click", startGame))
+        upArrow.addEventListener("click", ()=>{keyBoardEvents({key:"ArrowUp"})})
+        downArrow.addEventListener("click", ()=>{keyBoardEvents({key:"ArrowDown"})})
+        leftArrow.addEventListener("click", ()=>{keyBoardEvents({key:"ArrowLeft"})})
+        rightArrow.addEventListener("click", ()=>{keyBoardEvents({key:"ArrowRight"})})
+    }else{
+        document.addEventListener("keydown", keyBoardEvents)
+    }
+
     //reset score
     scoreText.children[0].textContent = 0  
 }
@@ -185,6 +211,7 @@ const newSnakePiece = (place)=>{
     snakePiece.classList.add("snake")
     //if it's the snakes head, assign it the appropriate id...
     snakePiece.setAttribute("id", snake.length === 0 && "head")
+    snakePiece.setAttribute("place", place)
     //append snake to gameboard
     gameSquares[place].append(snakePiece)
     //push it into our snake array
@@ -194,7 +221,7 @@ const newSnakePiece = (place)=>{
 newSnakePiece(312)
 
 //addes events to arrow keys and nothing else
-const keyBoardEvents = async (e)=>{
+const keyBoardEvents =  (e)=>{
     //closes any boxes that might be open from a new game or pressing the wrong button
     dialogeBox.style.display="none"
     //the slither function to move the snake will be called with the direction of the arrow key pressed
@@ -359,6 +386,17 @@ const slither = async (direction) => {
 }
 
 //add keyBoard events so the player can start the game with arrow keys.
-document.addEventListener("keydown", startGame)
+console.log(screenType)
+if(screenType ===  "mobile"){
+    console.log("here")
+    mobileControls.forEach(control=>control.addEventListener("click", startGame))
+}else{
+    document.addEventListener("keydown", startGame)
+}
+
+
+
+
+
 
 

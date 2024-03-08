@@ -5,22 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 <body>
-    <h1>Snake</h1>
-    <p><span id="hardness">Easy</span><br>High Score:<span id = "highScore"></span></p>
-    <p id = "score">Score:<span></span></p>
-    <p>Choose a level</p>
+    <div class = "extras">
+        <h1>Snake</h1>
+        <p><span id="hardness">Easy</span><br>High Score:<span id = "highScore"></span></p>
+        <p id = "score">Score:<span></span></p>
+        <p>Choose a level</p>
+        <div id = "timerBox">
+            <p>How many point can you get in <br><span id="timer">90 </span><br>seconds</p>
+        </div>
+
+    </div>
     <button id = "easy" class = "selected">Easy</button>
     <button id = "medium">Medium</button>
     <button id = "hard">Hard</button>
-    <div id = "timerBox">
-        <p>How many point can you get in <br><span id="timer">90 </span><br>seconds</p>
-    </div>
     <button id = "stop">Stop</button>
-
     <div id="gameboard" class="easy">   
             <p id = "dialogeBox"><span>Press any key to play</span></p>
+    </div>
+    <div id="mobileControls">
+        <div class = "arrow">
+            <span id="up" class="material-symbols-outlined">
+                arrow_upward
+            </span>
+        </div>
+        <div id = "right" class = "arrow">
+            <span class="material-symbols-outlined">
+                arrow_forward
+            </span>
+
+        </div>
+        <div id="down" class = "arrow">
+            <span class="material-symbols-outlined">
+                arrow_downward
+            </span>
+        </div>
+        <div id = "left" class = "arrow">
+            <span class="material-symbols-outlined">
+                arrow_back
+            </span>
+        </div>
     </div>
     
     <script src="main.js"></script>
